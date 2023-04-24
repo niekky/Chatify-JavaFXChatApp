@@ -176,7 +176,7 @@ public class ChatroomManager extends SQLManager{
         return max;
     }
 
-    private boolean inRoom(){
+    public boolean inRoom(){
         if (current_room_id != -1){
             return true;
         } else return false;
@@ -199,6 +199,8 @@ public class ChatroomManager extends SQLManager{
 //
 //                stmt.executeUpdate(sql_delete);
                 current_room_id = -1;
+                System.out.println("Room Exited");
+                System.out.println();
 //                System.out.println("Room Exited");
 //                System.out.println();
 //                stmt.close();
