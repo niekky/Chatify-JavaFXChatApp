@@ -137,7 +137,7 @@ public class SQLManager {
         String pass = dotenv.get("PASSWORD");
         String database_name = "test";
         String user = "postgres";
-        String password = "19781902Cfc";
+        String password = "****";
 
         try {
 			// LOCAL DATABASE //
