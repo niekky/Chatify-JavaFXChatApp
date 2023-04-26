@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import backend.ChatroomManager;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -131,14 +132,16 @@ public class ConversationController implements Initializable {
         int timer = 0;
         @Override
         public void run() {
-            System.out.println(timer);
-            timer++;
-            if (timer >= 3){
-                List<String> messages = chatroomManager.getConversation();
-                System.out.println(messages);
-                observableMessages.setAll(messages);
-                timer = 0;
-            }
+            Platform.runLater(() -> {
+                System.out.println(timer);
+                if (timer <= 0){
+                    List<String> messages = chatroomManager.getConversation();
+                    System.out.println(messages);
+                    observableMessages.setAll(messages);
+                    timer = 5;
+                }
+                timer--;
+            });
         }
     }
 
