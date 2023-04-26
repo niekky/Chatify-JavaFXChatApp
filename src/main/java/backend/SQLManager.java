@@ -135,23 +135,31 @@ public class SQLManager {
         String url = dotenv.get("URL");
         String name = dotenv.get("USER");
         String pass = dotenv.get("PASSWORD");
+        String database_name = "test";
+        String user = "postgres";
+        String password = "19781902Cfc";
 
         try {
-//			// LOCAL DATABASE //
-//            Class.forName("org.postgresql.Driver");
-//            connection = DriverManager.getConnection(
-//                    "jdbc:postgresql://localhost:5432/"+database_name,
-//                    user,
-//					password);
-
-            // AWS DATABASE //
+			// LOCAL DATABASE //
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
-                    url,
-                    name,
-                    pass);
+                    "jdbc:postgresql://localhost:5432/"+database_name,
+                    user,
+					password);
+
+            //////////////////////////////////////////////////////
+
+//            // AWS DATABASE //
+//            Class.forName("org.postgresql.Driver");
+//            connection = DriverManager.getConnection(
+//                    url,
+//                    name,
+//                    pass);
+//
+//            ////////////////////////////////////////////////////////
 
             return connection;
+
 
         } catch (Exception e){
             System.out.println("Connection Failed");
