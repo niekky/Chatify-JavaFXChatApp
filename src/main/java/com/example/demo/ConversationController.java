@@ -93,7 +93,7 @@ public class ConversationController implements Initializable {
         conversationList.getItems().add(full);
         chatroomManager.send_message(text);
         System.out.println("User said: " + text);
-        //sendButton.setOnAction(press -> text_field.clear());
+        text_field.clear();
     }
 
     public void goBack(ActionEvent e) throws IOException {

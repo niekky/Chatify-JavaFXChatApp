@@ -99,9 +99,18 @@ public class AccController {
         if (loginSuccess){
             warning.setText("Login Successfully!");
             navigateToRooms(e, username);
-        } else{
-            warning.setText("Wrong username or password!");
-            System.out.println("Wrong username or password!");
+        }else if(username == ""&&password=="") {
+            warning.setText("No username or password!");
+            System.out.println("No username or password!");
+        }else if(username == ""){
+            warning.setText("You forgot your username!");
+            System.out.println("You forgot your username!");
+        }else if(password ==""){
+            warning.setText("You forgot your password!");
+            System.out.println("You forgot your password!");
+        }else{
+            warning.setText("Incorrect username or password!");
+            System.out.println("Incorrect username or password!");
         }
 
 
