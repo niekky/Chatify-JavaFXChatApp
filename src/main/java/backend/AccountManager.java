@@ -43,7 +43,8 @@ public class AccountManager extends SQLManager {
 	}
 
     public String signup(String username, String password, String conPassword){
-		String data = null;
+
+		String data;
 
    		if(!password.equals(conPassword)) {
    			System.out.println("Password did not match. ");
@@ -72,11 +73,7 @@ public class AccountManager extends SQLManager {
 
 	public void signupCLI(){
 
-		String username = null;
-		String pass0 = null;
-		String pass1 = null;
-		String data = null;
-
+		String username,pass0,pass1;
 		Scanner obj = new Scanner(System.in);
 
 		System.out.print("Enter a new username: ");
@@ -97,13 +94,7 @@ public class AccountManager extends SQLManager {
 			signupCLI();
 		}
 
-		int uid = maxVal("users", "user_id")+1;
-
-		data = uid + " ,'" + username + "' , '" + passHash(pass0).substring(0,20) + "' ";
-
-		addColumn("users","user_id, username, password",data);
-
-		System.out.println("Success");
+		signup(username, pass0, pass1);
 
 	}
 

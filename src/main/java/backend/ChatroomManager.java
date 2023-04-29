@@ -20,27 +20,10 @@ public class ChatroomManager extends SQLManager{
     }
 
     public void displayRooms(){
+
         System.out.println("All rooms available: ");
-
-        try {
-            Connection connection = connectDatabase();
-
-            Statement stmt = connection.createStatement();
-
-            String q1 = "SELECT * FROM rooms";
-            ResultSet rs = stmt.executeQuery(q1);
-
-            while (rs.next()){
-                System.out.printf("%s: %s\n",rs.getString(1), rs.getString(2));
-            }
-            System.out.println();
-            rs.close();
-            stmt.close();
-            connection.close();
-
-        } catch (Exception e){
-            System.out.println("Query Error");
-        }
+        for(String room : getRooms())
+            System.out.println(room);
     }
 
     public List<String> getRooms(){
@@ -54,7 +37,7 @@ public class ChatroomManager extends SQLManager{
             ResultSet rs = stmt.executeQuery(q1);
 
             while (rs.next()){
-                System.out.printf("%s: %s\n",rs.getString(1), rs.getString(2));
+
                 rooms.add(rs.getString(2));
             }
 
