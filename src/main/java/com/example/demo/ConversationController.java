@@ -58,9 +58,6 @@ public class ConversationController implements Initializable {
 
     static ChatroomManager chatroomManager;
 
-    String[] sample_messages = {"user1: Hi","user2: Hey","user1: How's going?"};
-
-    String[] sample_members = {"user1", "user2"};
     TimerTask task = new TimerTask();
     Timer timer = new Timer();
 
@@ -79,10 +76,6 @@ public class ConversationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        conversationList.getItems().addAll(sample_messages);
-//        membersList.getItems().addAll(sample_members);
-//        List<String> messages = chatroomManager.getConversation();
-//        conversationList.getItems().addAll(messages);
         timer.scheduleAtFixedRate(task, 1000, 1000);
 
         chatroomName.setText(room_name);
@@ -110,12 +103,6 @@ public class ConversationController implements Initializable {
     }
 
     public void goBack(ActionEvent e) throws IOException {
-
-//        Parent root = FXMLLoader.load(getClass().getResource("rooms.fxml"));
-//        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         timer.cancel();
         task.cancel();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("rooms.fxml"));
