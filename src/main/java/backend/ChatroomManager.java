@@ -122,7 +122,7 @@ public class ChatroomManager extends SQLManager{
             return current_room_id;
 
         } catch (Exception e){
-            System.out.println("ERROR: " + e);
+            System.out.println("Failed to join room. Please check your connection! " + e);
             return -1;
         }
     }
@@ -166,7 +166,7 @@ public class ChatroomManager extends SQLManager{
             connection.close();
             return true;
         } catch (Exception e){
-            System.out.println("ERROR: " + e);
+            System.out.println("Failed to create room. Please check your connection! " + e);
             return false;
         }
     }
@@ -187,28 +187,8 @@ public class ChatroomManager extends SQLManager{
 
     public void chat_history(){
         if (inRoom()){
-            try {
-                Connection connection = connectDatabase();
-
-                Statement stmt = connection.createStatement();
-
-                String sql_chat_query = "SELECT users.username, conversation.message_text " +
-                                        "FROM users, conversation " +
-                                        "WHERE users.user_id = conversation.user_id AND conversation.room_id = "+current_room_id+";";
-
-                ResultSet rs = stmt.executeQuery(sql_chat_query);
-
-                while (rs.next()){
-                    System.out.printf("%s: %s\n", rs.getString(1), rs.getString(2) );
-                }
-
-                System.out.println();
-                rs.close();
-                stmt.close();
-                connection.close();
-
-            } catch (Exception e){
-                System.out.println("ERROR: " + e);
+            for (String message : getConversation()){
+                System.out.println(message);
             }
         } else {
             System.out.println("You are not in a chatroom!");
@@ -239,7 +219,7 @@ public class ChatroomManager extends SQLManager{
                 connection.close();
                 return conversation;
             } catch (Exception e){
-                System.out.println("ERROR: " + e);
+                System.out.println("Failed to retrieve chatroom conversation. Please check your connection! " + e);
                 return null;
             }
         } else {
@@ -251,32 +231,9 @@ public class ChatroomManager extends SQLManager{
 
     public void list_user(){
         if (inRoom()){
-            try {
-                Connection connection = connectDatabase();
-
-                Statement stmt = connection.createStatement();
-
-                String sql_users_query = String.format(
-                        "SELECT users.username " +
-                        "FROM users, users_room " +
-                        "WHERE users.user_id = users_room.user_id AND users_room.room_id = %d;",
-                        current_room_id
-                );
-
-                ResultSet rs = stmt.executeQuery(sql_users_query);
-
-                System.out.println("Players: ");
-                while (rs.next()){
-                    System.out.println(rs.getString(1));
-                }
-
-                System.out.println();
-                rs.close();
-                stmt.close();
-                connection.close();
-
-            } catch (Exception e){
-                System.out.println("ERROR: " + e);
+            System.out.println("Users: ");
+            for (String user : getUserList()){
+                System.out.println(user);
             }
         } else {
             System.out.println("You are not in a chatroom!");
@@ -301,7 +258,6 @@ public class ChatroomManager extends SQLManager{
 
                 ResultSet rs = stmt.executeQuery(sql_users_query);
 
-                System.out.println("Players: ");
                 while (rs.next()){
                     users.add(rs.getString(1));
                 }
@@ -311,7 +267,7 @@ public class ChatroomManager extends SQLManager{
                 connection.close();
                 return users;
             } catch (Exception e){
-                System.out.println("ERROR: " + e);
+                System.out.println("Failed to receive available users in the room. Please check your connection! " + e);
                 return null;
             }
         } else {
@@ -342,7 +298,7 @@ public class ChatroomManager extends SQLManager{
                 connection.close();
 
             } catch (Exception e){
-                System.out.println("ERROR: " + e);
+                System.out.println("Failed to send message. Please check your connection! " + e);
             }
         } else {
             System.out.println("You are not in a chatroom!");
