@@ -145,20 +145,20 @@ public class SQLManager {
 
         try {
 //			// LOCAL DATABASE //
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/"+database_name,
-                    user,
-                    password);
+//            Class.forName("org.postgresql.Driver");
+//            connection = DriverManager.getConnection(
+//                    "jdbc:postgresql://localhost:5432/"+database_name,
+//                    user,
+//                    password);
 
 
             // AWS DATABASE //
-//            Class.forName("org.postgresql.Driver");
-//            connection = DriverManager.getConnection(
-//                    url,
-//                    name,
-//                    pass);
-//
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(
+                    url,
+                    name,
+                    pass);
+
             ////////////////////////////////////////////////////////
 
             return connection;

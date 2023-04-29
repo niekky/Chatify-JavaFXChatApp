@@ -127,6 +127,13 @@ public class ChatroomManager extends SQLManager{
             System.out.println("You are already in the chat");
             return;
         }
+        for(int i = 0; i<room_name.length();i++){
+            char ch = room_name.charAt(i);
+            if(!(Character.isDigit(ch)||Character.isLowerCase(ch))){
+                System.out.println("You are only allowed to use lowercase letters and numbers!");
+                return;
+            }
+        }
 
         try {
             Connection connection = connectDatabase();
@@ -154,6 +161,7 @@ public class ChatroomManager extends SQLManager{
                     );
                     stmt.executeUpdate(sql_insert_room);
                     System.out.printf("%s Created!\n", room_name);
+                    join_room(room_name);
                 }
             }
             System.out.println();
