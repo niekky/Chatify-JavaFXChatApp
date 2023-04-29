@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import backend.ChatroomManager;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -21,7 +22,10 @@ import org.controlsfx.control.action.Action;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ConversationController implements Initializable {
     private Stage stage;
@@ -52,13 +56,16 @@ public class ConversationController implements Initializable {
     private String username = null;
     private String room_name = null;
 
-    ChatroomManager chatroomManager;
+    static ChatroomManager chatroomManager;
 
     String[] sample_messages = {"user1: Hi","user2: Hey","user1: How's going?"};
 
     String[] sample_members = {"user1", "user2"};
+    TimerTask task = new TimerTask();
+    Timer timer = new Timer();
 
-    private ObservableList<String> messages = FXCollections.observableArrayList();
+
+    private ObservableList<String> observableMessages = FXCollections.observableArrayList();
 
     public ConversationController(int uid, String username, int room_id, String room_name){
         current_user_id = uid;
@@ -74,16 +81,22 @@ public class ConversationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        conversationList.getItems().addAll(sample_messages);
 //        membersList.getItems().addAll(sample_members);
+//        List<String> messages = chatroomManager.getConversation();
+//        conversationList.getItems().addAll(messages);
+        timer.scheduleAtFixedRate(task, 1000, 1000);
+
         chatroomName.setText(room_name);
-        conversationList.getItems().addAll(chatroomManager.getConversation());
+
         membersList.getItems().addAll(chatroomManager.getUserList());
 
-        messages.addListener(new InvalidationListener() {
+        observableMessages.addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-
+                System.out.println("Invalidated");
             }
         });
+
+        conversationList.setItems(observableMessages);
 
     }
 
@@ -103,25 +116,34 @@ public class ConversationController implements Initializable {
 //        scene = new Scene(root);
 //        stage.setScene(scene);
 //        stage.show();
-
+        timer.cancel();
+        task.cancel();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("rooms.fxml"));
         loader.setControllerFactory(c -> new RoomController(current_user_id, username));
 
-        Parent root = loader.load();
 
+        Parent root = loader.load();
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setRoomName(String name){
-
+     class TimerTask extends java.util.TimerTask{
+        int timer = 0;
+        @Override
+        public void run() {
+            Platform.runLater(() -> {
+                System.out.println(timer);
+                if (timer <= 0){
+                    List<String> messages = chatroomManager.getConversation();
+                    System.out.println(messages);
+                    observableMessages.setAll(messages);
+                    timer = 5;
+                }
+                timer--;
+            });
+        }
     }
-
-    public void passUID(int uid){
-        current_user_id = uid;
-    }
-
 
 }
