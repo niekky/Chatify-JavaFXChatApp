@@ -139,23 +139,27 @@ public class SQLManager {
         String user = "postgres";
         String password = "****";
 
+        String databaseName = "postgres";
+        String username = "postgres";
+        String password = "1234";
+
         try {
 //			// LOCAL DATABASE //
-//            Class.forName("org.postgresql.Driver");
-//            connection = DriverManager.getConnection(
-//                    "jdbc:postgresql://localhost:5432/"+database_name,
-//                    user,
-//					password);
-//
-//            //////////////////////////////////////////////////////
-
-            // AWS DATABASE //
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
-                    url,
-                    name,
-                    pass);
+                    "jdbc:postgresql://localhost:5432/"+databaseName,
+                    username,
+                    password);
 
+
+            // AWS DATABASE //
+//            Class.forName("org.postgresql.Driver");
+//            connection = DriverManager.getConnection(
+//                    url,
+//                    name,
+//                    pass);
+//
+=======
             ////////////////////////////////////////////////////////
 
             return connection;
