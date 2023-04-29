@@ -29,22 +29,17 @@ public class AccountManager extends SQLManager {
 		Scanner obj = new Scanner(System.in);
 
 		System.out.print("Enter your username: ");
-		String username = obj.nextLine().toLowerCase();
-
+		String username = obj.nextLine();
 
 		System.out.print("Enter your password: ");
-		String password = passHash(obj.nextLine()).substring(0,20);
+		String password = obj.nextLine();
 
-		if(!searchForMatch("users","username",username) ||
-				!searchForMatch("users","password",password)) {
-			System.out.println("Username or Password is incorrect. ");
+		if(!login(username, password)) {
 			return -1;
 		}else {
-			System.out.println("Login Successful! ");
+			return getUID(username);
 		}
 
-
-		return getUID(username);
 	}
 
     public String signup(String username, String password, String conPassword){
@@ -84,7 +79,7 @@ public class AccountManager extends SQLManager {
 		System.out.print("Enter a new username: ");
 		username = obj.nextLine().toLowerCase();
 
-		if(username==""||searchForMatch("users", "username", username)) {
+		if(username.equals("") ||searchForMatch("users", "username", username)) {
 			System.out.println("Enter a valid username.");
 			signupCLI();
 		}
@@ -165,7 +160,7 @@ public class AccountManager extends SQLManager {
 		String username = null;
 		String password = null;
 
-		String userId = "";
+		int userId = -1;
 
 		Scanner obj = new Scanner(System.in);
 
@@ -176,33 +171,23 @@ public class AccountManager extends SQLManager {
 		password = passHash(obj.nextLine()).substring(0,20);
 
 		if(!searchForMatch("users","username",username)) {
-//    		obj.close();
 			System.out.println("Username does not exist.");
 			return;
 		}
 
-		userId = getUserId(username)+ "";
+		userId = getUserId(username);
 
-		if(!(Objects.equals(checkPassword(userId), password))) {
-//    		obj.close();
+		if(!(Objects.equals(checkPassword(String.valueOf(userId)), password))) {
 			System.out.println("Password does not match Username. ");
 			return;
 		}
 		System.out.print("Enter a new username: ");
-		username = obj.nextLine().toLowerCase();
-
+		username = obj.nextLine();
 
 		System.out.print("Enter a new password: ");
-		password = passHash(obj.nextLine()).substring(0,20);
+		password = obj.nextLine();
 
-
-
-		updateColumn("users", "username",  username, "user_id", userId);
-		updateColumn("users", "password",  password, "user_id", userId);
-
-		System.out.println("Username and Password have been successfully updated! ");
-//    	obj.close();
-		return;
+		updateUser(userId, username, password);
 	}
 
 	public int getCurrentUserID(){
@@ -221,8 +206,9 @@ public class AccountManager extends SQLManager {
 		  return sb.toString().substring(0,20);
 
 	  }catch(Exception e) {
+		  System.out.println("Failed to process password. Please report this to the developers!");
 		  e.printStackTrace();
-	  }finally{}
+	  }
 
 	  return null;
 	}
