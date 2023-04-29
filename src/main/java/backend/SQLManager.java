@@ -41,7 +41,7 @@ public class SQLManager {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
-        }finally {}
+        }
 
         return -1;
 
@@ -138,11 +138,6 @@ public class SQLManager {
         String database_name = "test";
         String user = "postgres";
         String password = "19781902Cfc";
-//
-//        String databaseName = "postgres";
-//        String username = "postgres";
-//        String password = "1234";
-
         try {
 ////			// LOCAL DATABASE //
 //            Class.forName("org.postgresql.Driver");
@@ -171,24 +166,6 @@ public class SQLManager {
             return null;
         }
     }
-    protected void deleteData(String tableName) {
-
-        Connection connection = connectDatabase();
-        try {
-
-            stmt = connection.createStatement();
-            String sql = "TRUNCATE TABLE " + tableName + " CASCADE;";
-            stmt.executeUpdate(sql);
-
-            stmt.close();
-            connection.close();
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }finally {}
-    }
 
     protected boolean searchForMatch(String tableName, String columnName, String value) {
 
@@ -214,15 +191,13 @@ public class SQLManager {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
-        }finally {}
+        }
 
         return result;
 
     }
 
     protected void updateColumn(String tableName, String columnName,  String value, String columnKey, String key) {
-
-        //UPDATE my_table SET my_column = 'new_value' WHERE primary_key_column = 'primary_key_value';
         Connection connection = connectDatabase();
 
         try {
@@ -240,41 +215,6 @@ public class SQLManager {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
-        }finally {}
-    }
-
-    public void initializeDatabase(){
-
-
-        Connection connection = connectDatabase();
-
-        try {
-            Statement stmt = connection.createStatement();
-
-            String q1 = "SELECT * FROM rooms WHERE rooms.room_name = '"+database_name+"';";
-            ResultSet rs = stmt.executeQuery(q1);
-
-        } catch (Exception e){
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         }
-    }
-
-    private void createTable(String table_name, String[] features){
-
-    }
-
-
-    private void update(String table_name, String[] features, String[] data){
-
-    }
-
-    private void delete(String table_name){
-
-    }
-
-    private void check(){
-
     }
 }
