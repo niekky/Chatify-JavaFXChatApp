@@ -131,13 +131,17 @@ public class SQLManager {
 
     protected Connection connectDatabase(){
         Connection connection = null;
-        Dotenv dotenv = Dotenv.load();
-        String url = dotenv.get("URL");
-        String name = dotenv.get("USER");
-        String pass = dotenv.get("PASSWORD");
+
         String database_name = "test";
         String user = "postgres";
         String password = "19781902Cfc";
+
+        Dotenv dotenv = Dotenv.load();
+
+        String url = dotenv.get("URL");
+        String name = dotenv.get("USER");
+        String pass = dotenv.get("PASSWORD");
+
         try {
 
 //			// LOCAL DATABASE //
@@ -161,6 +165,7 @@ public class SQLManager {
 
         } catch (Exception e){
             System.out.println("Connection Failed");
+            System.out.println(".env file may be not found or .env file contains incorrect configuration!");
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return null;

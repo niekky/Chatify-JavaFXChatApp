@@ -15,6 +15,15 @@ public class Main {
         System.out.println();
     }
 
+    private static String concatArgs(String[] parts){
+        String message = "";
+        for (String part : parts) {
+            if (part.charAt(0)!='/'){
+                message = message.concat(part).concat(" ");
+            }
+        }
+        return message.trim();
+    }
 
     private static void chatroomScope(int uid) {
         System.out.println("Welcome to Chatify!");
@@ -38,10 +47,10 @@ public class Main {
             String[] parts = user_input.split(" ");
             switch (parts[0]) {
                 case "/display_rooms" -> chatroomManager.displayRooms();
-                case "/join" -> chatroomManager.join_room(parts[1]);
+                case "/join" -> chatroomManager.join_room(concatArgs(parts));
                 case "/create" -> {
-                    if (chatroomManager.create_room(parts[1])){
-                        chatroomManager.join_room(parts[1]);
+                    if (chatroomManager.create_room(concatArgs(parts))){
+                        chatroomManager.join_room(concatArgs(parts));
                     };
                 }
                 case "/history" -> chatroomManager.chat_history();

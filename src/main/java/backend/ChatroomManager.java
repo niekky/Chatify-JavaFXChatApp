@@ -136,7 +136,7 @@ public class ChatroomManager extends SQLManager{
             char ch = room_name.charAt(i);
             if(!(Character.isDigit(ch)||Character.isLowerCase(ch))){
                 System.out.println("You are only allowed to use lowercase letters and numbers!");
-                return;
+                return false;
             }
         }
 
