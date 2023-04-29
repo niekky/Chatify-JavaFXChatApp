@@ -37,6 +37,9 @@ public class RoomController implements Initializable {
     private Button accountSettingButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private ListView<String> roomsList;
 
 
@@ -74,6 +77,14 @@ public class RoomController implements Initializable {
         });
     }
 
+    public void navigateToLogin(ActionEvent e) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void createRoom(ActionEvent e){
         String room_name = text_field.getText();
         chatroomManager.create_room(room_name);
@@ -108,6 +119,11 @@ public class RoomController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void logout(ActionEvent e) throws IOException{
+        chatroomManager.logout();
+        navigateToLogin(e);
     }
 
 }

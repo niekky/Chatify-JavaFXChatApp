@@ -39,10 +39,15 @@ public class Main {
                 case "/display_rooms" -> chatroomManager.displayRooms();
                 case "/join" -> chatroomManager.join_room(parts[1]);
                 case "/create" -> chatroomManager.create_room(parts[1]);
-                case "/chat_history" -> chatroomManager.chat_history();
-                case "/exit_room" -> chatroomManager.exit_room();
-                case "/list_users" -> chatroomManager.list_user();
+                case "/history" -> chatroomManager.chat_history();
+                case "/leave" -> chatroomManager.exit_room();
+                case "/list" -> chatroomManager.list_user();
                 case "/update" -> acc_manager.updateCLI();
+                case "/logout" -> {
+                    chatroomManager.logout();
+                    int new_uid = accountScope();
+                    chatroomManager = new ChatroomManager(new_uid);
+                }
 //                case "/c" -> {
 //                    String message = "";
 //                    for (int i = 1; i < parts.length; i++) {
@@ -57,7 +62,7 @@ public class Main {
                     System.out.println("/create <room_name> : Create a certain chatroom");
                     System.out.println("/exit_room          : Join a certain chatroom");
 //                    System.out.println("/c <text_message>   : Chat");
-                    System.out.println("/list_users         : List all users in your room");
+                    System.out.println("/list               : List all users in your room");
                     System.out.println("/update             : Update User Option");
                     System.out.println("/exit_room          : Exit your chatroom");
                     System.out.println("/q                  : Exit the program");

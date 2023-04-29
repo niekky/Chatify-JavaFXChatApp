@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AccController {
     private Stage stage;
@@ -99,13 +100,13 @@ public class AccController {
         if (loginSuccess){
             warning.setText("Login Successfully!");
             navigateToRooms(e, username);
-        }else if(username == ""&&password=="") {
+        }else if(Objects.equals(username, "") && Objects.equals(password, "")) {
             warning.setText("No username or password!");
             System.out.println("No username or password!");
-        }else if(username == ""){
+        }else if(Objects.equals(username, "")){
             warning.setText("You forgot your username!");
             System.out.println("You forgot your username!");
-        }else if(password ==""){
+        }else if(Objects.equals(password, "")){
             warning.setText("You forgot your password!");
             System.out.println("You forgot your password!");
         }else{
@@ -124,27 +125,16 @@ public class AccController {
 
         String status = accountManager.signup(username, password, password2);
 
-        switch (status){
-            case "pnomatch":
-                warningSignup.setText("Password is not machted!");
-                break;
-
-            case "invalid":
-                warningSignup.setText("Invalid Password");
-                break;
-
-            case "existed":
-                warningSignup.setText("Name already existed");
-                break;
-
-            case "success":
+        switch (status) {
+            case "pnomatch" -> warningSignup.setText("Password is not machted!");
+            case "invalid" -> warningSignup.setText("Invalid Password");
+            case "existed" -> warningSignup.setText("Name already existed");
+            case "success" -> {
                 navigateToLogin(e);
                 warningSignup.setText("Sign up successfully!");
-                break;
-
-            default:
-                break;
-
+            }
+            default -> {
+            }
         }
 
 //        System.out.println(username + password + password2);

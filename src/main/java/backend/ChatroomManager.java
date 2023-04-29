@@ -69,6 +69,12 @@ public class ChatroomManager extends SQLManager{
         }
     }
 
+    public void logout(){
+        this.user_id = -1;
+        this.current_room_id = -1;
+        System.out.println("Logout Successfully!");
+    }
+
     public int join_room(String room_name){
 
         if (inRoom()){
