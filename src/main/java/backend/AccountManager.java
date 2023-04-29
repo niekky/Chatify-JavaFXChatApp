@@ -9,15 +9,9 @@ import java.util.Scanner;
 
 
 public class AccountManager extends SQLManager {
-    //private String user;
-	private int current_user_id = -1;
+    private int current_user_id = -1;
     
     public boolean login(String username, String password){
-//    	System.out.print("Enter your username: ");
-//    	String username = obj.nextLine().toLowerCase();
-//
-//    	System.out.print("Enter your password: ");
-//    	String password = passHash(obj.nextLine());
 		password = passHash(password);
     	if(!searchForMatch("users","username",username) ||
 		   !searchForMatch("users","password",password)) {
@@ -32,7 +26,6 @@ public class AccountManager extends SQLManager {
     }
 
 	public int loginCLI(){
-
 		Scanner obj = new Scanner(System.in);
 
 		System.out.print("Enter your username: ");
@@ -55,8 +48,7 @@ public class AccountManager extends SQLManager {
 	}
 
     public String signup(String username, String password, String conPassword){
-
-    	String data = null;
+		String data = null;
 
    		if(!password.equals(conPassword)) {
    			System.out.println("Password did not match. ");
@@ -99,8 +91,6 @@ public class AccountManager extends SQLManager {
 			System.out.println("Enter a valid username.");
 			signupCLI();
 		}
-
-
 
 		System.out.print("Enter a password: ");
 		pass0 = obj.nextLine();

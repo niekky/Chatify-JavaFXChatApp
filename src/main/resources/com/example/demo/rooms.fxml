@@ -17,7 +17,8 @@
       </Label>
       <TextField fx:id="text_field" layoutX="168.0" layoutY="332.0" />
       <Button fx:id="createRoomButton" layoutX="334.0" layoutY="332.0" mnemonicParsing="false" onAction="#createRoom" prefHeight="25.0" prefWidth="98.0" text="Create Room" />
-      <Button fx:id="accountSettingButton" layoutX="492.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateToAccountSetting" prefWidth="101.0" text="Account Setting" />
+      <Button fx:id="accountSettingButton" layoutX="485.0" layoutY="14.0" mnemonicParsing="false" onAction="#navigateToAccountSetting" prefWidth="101.0" text="Account Setting" />
       <Button fx:id="joinRoomButton" layoutX="281.0" layoutY="287.0" mnemonicParsing="false" onAction="#joinRoom" text="Join" />
+      <Button fx:id="logoutButton" layoutX="529.0" layoutY="54.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
    </children>
 </AnchorPane>

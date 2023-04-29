@@ -10,7 +10,6 @@ import java.util.List;
 public class ChatroomManager extends SQLManager{
     private int current_room_id = -1;
     private int user_id = -1;
-    public final HashMap<Integer, String> dummy_rooms = new HashMap<>();
 
     public ChatroomManager(int user_id){
         this.user_id = user_id;
@@ -69,6 +68,12 @@ public class ChatroomManager extends SQLManager{
         }
     }
 
+    public void logout(){
+        this.user_id = -1;
+        this.current_room_id = -1;
+        System.out.println("Logout Successfully!");
+    }
+
     public int join_room(String room_name){
 
         if (inRoom()){
@@ -122,10 +127,10 @@ public class ChatroomManager extends SQLManager{
         }
     }
 
-    public void create_room(String room_name){
+    public boolean create_room(String room_name){
         if (inRoom()){
             System.out.println("You are already in the chat");
-            return;
+            return false;
         }
         for(int i = 0; i<room_name.length();i++){
             char ch = room_name.charAt(i);
@@ -140,48 +145,30 @@ public class ChatroomManager extends SQLManager{
 
             Statement stmt = connection.createStatement();
 
-            String sql_room_query = String.format(
-                    "SELECT * FROM rooms WHERE rooms.room_name = '%s';",
-                    room_name
-            );
-            ResultSet rs = stmt.executeQuery(sql_room_query);
-
-            if (rs.next()){
-                System.out.println("Room name already existed!");
+            if (searchForMatch("rooms","rooms.room_name",room_name)){
+                System.out.println("Room name already existed! Please use different name!");
+                return false;
             } else {
-                String sql_getLastKey = "SELECT MAX(room_id) FROM rooms";
-                ResultSet keys = stmt.executeQuery(sql_getLastKey);
-                if (keys.next()){
-                    int newKey = keys.getInt(1) + 1;
-                    String sql_insert_room = String.format(
-                            "INSERT INTO rooms(room_id, room_name) " +
-                            "VALUES (%d, '%s');",
-                            newKey,
-                            room_name
-                    );
-                    stmt.executeUpdate(sql_insert_room);
-                    System.out.printf("%s Created!\n", room_name);
-                    join_room(room_name);
-                }
+
+                int newKey = maxVal("rooms", "room_id") + 1;
+                String sql_insert_room = String.format(
+                        "INSERT INTO rooms(room_id, room_name) " +
+                        "VALUES (%d, '%s');",
+                        newKey,
+                        room_name
+                );
+                stmt.executeUpdate(sql_insert_room);
+                System.out.printf("%s Created!\n", room_name);
+
             }
             System.out.println();
-            rs.close();
             stmt.close();
             connection.close();
-
+            return true;
         } catch (Exception e){
             System.out.println("ERROR: " + e);
+            return false;
         }
-    }
-
-    private int getLastKey(){
-        int max = 1;
-        for (int key: dummy_rooms.keySet()){
-            if (key > max){
-                max = key;
-            }
-        }
-        return max;
     }
 
     public boolean inRoom(){
@@ -192,31 +179,9 @@ public class ChatroomManager extends SQLManager{
 
     public void exit_room(){
         if (inRoom()){
-            try {
-//                Connection connection = connectDatabase();
-//
-//                Statement stmt = connection.createStatement();
-//
-//                String sql_delete = String.format(
-//                        "DELETE FROM users_room " +
-//                        "WHERE user_id = %d " +
-//                        "AND room_id = %d;",
-//                        user_id,
-//                        current_room_id
-//                );
-//
-//                stmt.executeUpdate(sql_delete);
-                current_room_id = -1;
-                System.out.println("Room Exited");
-                System.out.println();
-//                System.out.println("Room Exited");
-//                System.out.println();
-//                stmt.close();
-//                connection.close();
-
-            } catch (Exception e){
-                System.out.println("ERROR: " + e);
-            }
+            current_room_id = -1;
+            System.out.println("Room Exited");
+            System.out.println();
         }
     }
 

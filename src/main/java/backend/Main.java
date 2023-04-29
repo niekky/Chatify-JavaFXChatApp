@@ -17,14 +17,15 @@ public class Main {
 
 
     private static void chatroomScope(int uid) {
-        System.out.println("Chatroom WIP");
+        System.out.println("Welcome to Chatify!");
+        System.out.println("Type /help to see options");
 
         ChatroomManager chatroomManager = new ChatroomManager(uid);
 
 
         while (true) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter: ");
+            System.out.print("Chatify>> ");
             String user_input = scanner.nextLine();
 
             if (user_input.equals("/q")) {
@@ -32,38 +33,41 @@ public class Main {
                 break;
             }
 
+            System.out.println("#########################################################################");
 
             String[] parts = user_input.split(" ");
-//            argsLog(parts);
             switch (parts[0]) {
                 case "/display_rooms" -> chatroomManager.displayRooms();
                 case "/join" -> chatroomManager.join_room(parts[1]);
-                case "/create" -> chatroomManager.create_room(parts[1]);
-                case "/chat_history" -> chatroomManager.chat_history();
-                case "/exit_room" -> chatroomManager.exit_room();
-                case "/list_users" -> chatroomManager.list_user();
+                case "/create" -> {
+                    if (chatroomManager.create_room(parts[1])){
+                        chatroomManager.join_room(parts[1]);
+                    };
+                }
+                case "/history" -> chatroomManager.chat_history();
+                case "/leave" -> chatroomManager.exit_room();
+                case "/list" -> chatroomManager.list_user();
                 case "/update" -> acc_manager.updateCLI();
-//                case "/c" -> {
-//                    String message = "";
-//                    for (int i = 1; i < parts.length; i++) {
-//                        message = message.concat(parts[i]).concat(" ");
-//                    }
-//                    chatroomManager.send_message(message.trim());
-//                }
+                case "/logout" -> {
+                    chatroomManager.logout();
+                    int new_uid = accountScope();
+                    chatroomManager = new ChatroomManager(new_uid);
+                }
                 case "/help" -> {
                     System.out.println("Help: ");
-                    System.out.println("/display_rooms      : Display all public chatrooms");
-                    System.out.println("/join <room_name>   : Join a certain chatroom");
-                    System.out.println("/create <room_name> : Create a certain chatroom");
-                    System.out.println("/exit_room          : Join a certain chatroom");
-//                    System.out.println("/c <text_message>   : Chat");
-                    System.out.println("/list_users         : List all users in your room");
-                    System.out.println("/update             : Update User Option");
-                    System.out.println("/exit_room          : Exit your chatroom");
+                    System.out.println("/display_rooms      : Display all available chatrooms");
+                    System.out.println("/join <room_name>   : Join a chatroom");
+                    System.out.println("/create <room_name> : Create a chatroom");
+                    System.out.println("/history            : Show all the past messages");
+                    System.out.println("/leave              : Leave a current chatroom");
+                    System.out.println("/list               : List all users in your room");
+                    System.out.println("/update             : Update user setting");
+                    System.out.println("/logout             : Logout");
                     System.out.println("/q                  : Exit the program");
                 }
+                case "" -> System.out.println("Invalid Input");
                 default -> {
-                    if (chatroomManager.inRoom()){
+                    if (chatroomManager.inRoom() && parts[0].charAt(0)!='/'){
                         String message = "";
                         for (String part : parts) {
                             message = message.concat(part).concat(" ");
@@ -74,6 +78,9 @@ public class Main {
                     }
                 }
             }
+
+            System.out.println("#########################################################################");
+
         }
     }
 
@@ -81,9 +88,11 @@ public class Main {
         System.out.println("Enter and press: ");
         System.out.println("'l' to login");
         System.out.println("'s' to signup");
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter: ");
         String user_input = scanner.nextLine();
+
         switch (user_input) {
             case "l" -> {
                 return acc_manager.loginCLI();
@@ -98,15 +107,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
-        //m.connectToDatabase("projectdb");
-        //System.out.println(m.searchForMatch("users", "username", "coles"));
-//    	m.signup();
-//    	m.login();
-        //UPDATE my_table SET my_column = 'new_value' WHERE primary_key_column = 'primary_key_value';
-        //m.updateColumn("users", "username", "coles" , "user_id", "1");
-        //m.deleteData("users");
-//        chatroomScope();
         int uid = -1;
         while (uid == -1){
             uid = accountScope();

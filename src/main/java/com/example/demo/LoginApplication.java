@@ -17,7 +17,7 @@ public class LoginApplication extends Application {
 
         stage.getIcons().add(new Image(LoginApplication.class.getResourceAsStream("/jef.png")));
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Chatify");
         stage.setScene(scene);
         stage.show();
     }
