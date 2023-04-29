@@ -132,6 +132,13 @@ public class ChatroomManager extends SQLManager{
             System.out.println("You are already in the chat");
             return false;
         }
+        for(int i = 0; i<room_name.length();i++){
+            char ch = room_name.charAt(i);
+            if(!(Character.isDigit(ch)||Character.isLowerCase(ch))){
+                System.out.println("You are only allowed to use lowercase letters and numbers!");
+                return;
+            }
+        }
 
         try {
             Connection connection = connectDatabase();
@@ -142,6 +149,7 @@ public class ChatroomManager extends SQLManager{
                 System.out.println("Room name already existed! Please use different name!");
                 return false;
             } else {
+
                 int newKey = maxVal("rooms", "room_id") + 1;
                 String sql_insert_room = String.format(
                         "INSERT INTO rooms(room_id, room_name) " +
