@@ -65,9 +65,19 @@ public class AccountManager extends SQLManager {
    		int uid = maxVal("users", "user_id")+1;
    		
    		data = uid + " ,'" + username + "' , '" + passHash(password) + "' ";
-   		
+
+		if(Objects.equals(username, "")) {
+			System.out.println("Invalid username");
+			return "invalid";
+		}
+
+		if (searchForMatch("users", "username", username)){
+			System.out.println("Name already existed");
+			return "existed";
+		}
+
    		addColumn("users","user_id, username, password",data);
-   		
+
    		System.out.println("Success");
 
 		return "success";

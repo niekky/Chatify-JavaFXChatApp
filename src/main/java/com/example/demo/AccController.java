@@ -126,8 +126,15 @@ public class AccController {
 
         switch (status){
             case "pnomatch":
-                System.out.println("Password is not machted");
                 warningSignup.setText("Password is not machted!");
+                break;
+
+            case "invalid":
+                warningSignup.setText("Invalid Password");
+                break;
+
+            case "existed":
+                warningSignup.setText("Name already existed");
                 break;
 
             case "success":

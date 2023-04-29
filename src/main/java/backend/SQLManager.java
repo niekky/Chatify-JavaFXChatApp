@@ -137,18 +137,18 @@ public class SQLManager {
         String pass = dotenv.get("PASSWORD");
         String database_name = "test";
         String user = "postgres";
-        String password = "****";
-
-        String databaseName = "postgres";
-        String username = "postgres";
-        String password = "1234";
+        String password = "19781902Cfc";
+//
+//        String databaseName = "postgres";
+//        String username = "postgres";
+//        String password = "1234";
 
         try {
 //			// LOCAL DATABASE //
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/"+databaseName,
-                    username,
+                    "jdbc:postgresql://localhost:5432/"+database_name,
+                    user,
                     password);
 
 
@@ -159,7 +159,6 @@ public class SQLManager {
 //                    name,
 //                    pass);
 //
-=======
             ////////////////////////////////////////////////////////
 
             return connection;
