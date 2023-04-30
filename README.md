@@ -32,4 +32,5 @@ Features in Chatify:
 Developed by 
 - Nick Nguyen : tnguy231@asu.edu
 - Cole Kemp : cbkemp@asu.edu
+
 Chatify was developed as a final project for our CSE205 class at Arizona State University.
