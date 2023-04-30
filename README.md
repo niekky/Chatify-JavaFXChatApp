@@ -1,5 +1,5 @@
 # Chatify
-A basic chatting application made completely in Java. Chatify is a full-stack application, where front-end is developed with JavaFX framework and back-end is made to leverage database management by JDBC. Chatify's database is done on PostgreSQL and hosted with AWS.
+A basic chatting application made completely in Java. Chatify is the full-stack application, where the front-end is developed with JavaFX framework and the back-end is made to leverage database management by JDBC. Chatify's database is done on PostgreSQL and hosted with AWS.
 
 Features in Chatify:
 - Supports both CLI and GUI
